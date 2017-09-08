@@ -17,5 +17,5 @@ for j in range(0, 25000):
 
 std = math.sqrt((1/float(25000))*sum)
 
-print mean
-print std
+print(mean)
+print(std)
