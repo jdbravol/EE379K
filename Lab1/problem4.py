@@ -5,25 +5,39 @@ import math
 mu = [-5, 5]
 cov = [[20, .8],[.8, 30]]
 
-z = np.random.multivariate_normal(mu,cov, 3)
+z = np.random.multivariate_normal(mu,cov, 1000)
 
 
 #Mean calculation
-mu1 = 0
-mu2 = 0
-for x in range(0, 3):
-    mu1 += z[x][0]
-    mu2 += z[x][1]
-mu1 = mu1/float(3)
-mu2 = mu2/float(3)
-
-mean = mu1/mu2
-
-#Covariance calculation
-
-sum = 0
+mu = [0, 0]
 for x in range(0, 1000):
-    sum += (z[x][0] - mu1)*(z[x][1] - mu2)
+    mu[0] += z[x][0]
+    mu[1] += z[x][1]
+mu[0] = mu[0]/float(1000)
+mu[1] = mu[1]/float(1000)
+
+mean = mu[0]/mu[1]
+
+#Covariance Matrix calculation
+
+matrix = [[0,0],[0,0]]
+
+#x11
+for x in range(0, 1000):
+    matrix[0][0] += (z[x][0] - mu[0])*(z[x][0] - mu[0])
+
+matrix[0][0] /= float(999)
+#x12 & x21
+for x in range(0, 1000):
+    matrix[0][1] += (z[x][0] - mu[0])*(z[x][1] - mu[1])
+    matrix[1][0] += (z[x][1] - mu[1])*(z[x][0] - mu[0])
+
+matrix[0][1] /= float(999)
+matrix[1][0] /= float(999)
+#x22
+for x in range(0, 1000):
+    matrix[1][1] += (z[x][1] - mu[1])*(z[x][1] - mu[1])
+matrix[1][1] /= float(999)
 
 
-cov = 1/1000*()
+print matrix
